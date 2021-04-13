@@ -1,11 +1,14 @@
 package com.br.home.mytrainingsheet.entity;
 
+import com.br.home.mytrainingsheet.entity.sheet.Sheet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,6 +31,10 @@ public class Customer implements Serializable {
 
     @Column(nullable = false, length = 100)
     private String fullName;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    //One Customer to Many Sheets
+    private List<Sheet> sheets;
 
 
 }

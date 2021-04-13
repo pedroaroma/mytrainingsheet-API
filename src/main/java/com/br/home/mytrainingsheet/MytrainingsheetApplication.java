@@ -27,3 +27,7 @@ public class MytrainingsheetApplication {
 	}
 
 }
+
+/*TODO: VERIFICAR O RELACIONAMENTO ENTRE EXERCICE > SHEET > CUSTOMER
+
+PENSER EM ALGO MELHOR */

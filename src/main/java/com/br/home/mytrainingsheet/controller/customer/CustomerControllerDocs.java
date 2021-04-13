@@ -1,4 +1,4 @@
-package com.br.home.mytrainingsheet.controller;
+package com.br.home.mytrainingsheet.controller.customer;
 
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
