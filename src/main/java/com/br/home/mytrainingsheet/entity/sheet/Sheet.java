@@ -30,7 +30,7 @@ public class Sheet implements Serializable {
     private SheetType sheetType;
 
 
-    @OneToMany(mappedBy = "sheet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sheet",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     //One Sheet to Many Exercices
     private List<Exercice> exercices;
 

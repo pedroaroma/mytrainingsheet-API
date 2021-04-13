@@ -16,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {"com.br.home.mytrainingsheet.*"})
 @EnableJpaRepositories(basePackages = {"com.br.home.mytrainingsheet.repository"})
 @EnableTransactionManagement
-//@EnableWebMvc
 @RestController
 @EnableAutoConfiguration
 public class MytrainingsheetApplication {
@@ -27,7 +26,3 @@ public class MytrainingsheetApplication {
 	}
 
 }
-
-/*TODO: VERIFICAR O RELACIONAMENTO ENTRE EXERCICE > SHEET > CUSTOMER
-
-PENSER EM ALGO MELHOR */

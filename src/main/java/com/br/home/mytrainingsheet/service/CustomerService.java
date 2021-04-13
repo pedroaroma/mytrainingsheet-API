@@ -1,5 +1,6 @@
 package com.br.home.mytrainingsheet.service;
 
+import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import lombok.AllArgsConstructor;
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
@@ -21,21 +22,31 @@ public class CustomerService {
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyRegisteredException {
 
-        verifyIfIsAlreadyRegistered(customerDTO.getEmail());
+        verifyIfIsAlreadyRegisteredByEmail(customerDTO.getEmail());
         Customer customer = customerMapper.toModel(customerDTO);
         Customer customerSaved = customerRepository.save(customer);
 
         return customerMapper.toDTO(customerSaved);
     }
 
+    public void deleteById(Long id) throws CustomerNotFoundException {
+        verifyIfAlreadyRegistredById(id);
+        customerRepository.deleteById(id);
+    }
 
-    private void verifyIfIsAlreadyRegistered(String email) throws CustomerAlreadyRegisteredException {
+
+    private void verifyIfIsAlreadyRegisteredByEmail(String email) throws CustomerAlreadyRegisteredException {
 
         Optional<Customer> optSavedCustomer = customerRepository.findByEmail(email);
 
         if (optSavedCustomer.isPresent()) {
             throw new CustomerAlreadyRegisteredException(email);
         }
+    }
+
+    private Customer verifyIfAlreadyRegistredById(Long id) throws CustomerNotFoundException {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
 }

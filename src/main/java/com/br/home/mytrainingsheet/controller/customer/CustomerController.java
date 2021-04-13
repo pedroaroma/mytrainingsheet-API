@@ -2,6 +2,7 @@ package com.br.home.mytrainingsheet.controller.customer;
 
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class CustomerController implements CustomerControllerDocs {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO createCustomer(@RequestBody @Valid CustomerDTO customerDTO) throws CustomerAlreadyRegisteredException {
         return customerService.createCustomer(customerDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws CustomerNotFoundException {
+        customerService.deleteById(id);
     }
 
 }
