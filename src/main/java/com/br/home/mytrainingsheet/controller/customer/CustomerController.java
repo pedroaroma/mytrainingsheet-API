@@ -1,6 +1,7 @@
 package com.br.home.mytrainingsheet.controller.customer;
 
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
+import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
 import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.service.CustomerService;
@@ -30,4 +31,9 @@ public class CustomerController implements CustomerControllerDocs {
         customerService.deleteById(id);
     }
 
+    @PatchMapping("/{id}")
+    public CustomerDTO updateCustomerInfo(@PathVariable Long id, @RequestBody CustomerDTO customerDTO)
+            throws CustomerNotFoundException {
+        return customerService.updateCustomer(customerDTO, id);
+    }
 }

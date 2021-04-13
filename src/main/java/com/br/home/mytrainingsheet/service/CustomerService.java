@@ -1,12 +1,12 @@
 package com.br.home.mytrainingsheet.service;
 
-import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
-import lombok.AllArgsConstructor;
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.mapper.CustomerMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +34,22 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO, Long id) throws CustomerNotFoundException {
+        Customer customerForUpdate = verifyIfAlreadyRegistredById(id);
+        Customer customer = customerMapper.toModel(customerDTO);
+
+        if (customer.getPassword() != null) {
+            customerForUpdate.setPassword(customer.getPassword());
+        }
+        if (customer.getFullName() != null) {
+            customerForUpdate.setFullName(customer.getFullName());
+        }
+        customerRepository.save(customerForUpdate);
+
+        return customerMapper.toDTO(customerForUpdate);
+
+    }
+
 
     private void verifyIfIsAlreadyRegisteredByEmail(String email) throws CustomerAlreadyRegisteredException {
 
@@ -48,5 +64,6 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
     }
+
 
 }
