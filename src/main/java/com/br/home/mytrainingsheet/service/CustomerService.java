@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +52,22 @@ public class CustomerService {
 
     }
 
+    public CustomerDTO getCustomerInfos(Long id) throws CustomerNotFoundException {
+        Customer customer = verifyIfAlreadyRegistredById(id);
+        return customerMapper.toDTO(customer);
+    }
+
+    public List<CustomerDTO> getAllCustomers() {
+
+        List<Customer> customers = new ArrayList<>();
+        List<CustomerDTO> customerDTOS = new ArrayList<>();
+        customers = customerRepository.findAll();
+
+        customers.forEach(customer -> customerDTOS.add(customerMapper.toDTO(customer)));
+
+        return customerDTOS;
+
+    }
 
     private void verifyIfIsAlreadyRegisteredByEmail(String email) throws CustomerAlreadyRegisteredException {
 
