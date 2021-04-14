@@ -2,11 +2,13 @@ package com.br.home.mytrainingsheet.entity.sheet;
 
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.enuns.SheetType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,8 +27,11 @@ public class Sheet implements Serializable {
     //Many Sheet to One Customer
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private SheetType sheetType;
 
 

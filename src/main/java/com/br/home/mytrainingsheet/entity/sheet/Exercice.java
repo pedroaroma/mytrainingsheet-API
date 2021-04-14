@@ -1,5 +1,6 @@
 package com.br.home.mytrainingsheet.entity.sheet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Exercice implements Serializable {
     //Many Exercice to One Sheet
     @ManyToOne
     @JoinColumn(name = "sheet_id")
+    @JsonIgnore
     private Sheet sheet;
 
     private String name;
