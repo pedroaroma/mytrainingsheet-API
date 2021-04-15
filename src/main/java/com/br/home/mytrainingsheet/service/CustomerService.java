@@ -59,7 +59,7 @@ public class CustomerService {
 
     public List<CustomerDTO> getAllCustomers() {
 
-        List<Customer> customers = new ArrayList<>();
+        List<Customer> customers;
         List<CustomerDTO> customerDTOS = new ArrayList<>();
         customers = customerRepository.findAll();
 
