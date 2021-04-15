@@ -32,6 +32,13 @@ public class SheetController implements SheetControllerDocs {
 
     }
 
+    @DeleteMapping
+    @RequestMapping("/{idSheet}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSingleSheet(@PathVariable Long idSheet) {
+        sheetService.deleteSingleSheetById(idSheet);
+    }
+
 
 
 

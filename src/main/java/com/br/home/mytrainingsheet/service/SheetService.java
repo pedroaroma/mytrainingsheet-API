@@ -49,4 +49,10 @@ public class SheetService {
 
         return sheetDTOS;
     }
+
+    public void deleteSingleSheetById(Long idSheet) {
+
+        sheetRepository.delete((sheetRepository.findById(idSheet).get()));
+
+    }
 }
