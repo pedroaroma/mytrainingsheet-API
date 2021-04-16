@@ -32,27 +32,49 @@ public class SheetService {
         Sheet sheetSaved = sheetRepository.save(sheet);
 
 
-
         return sheetMapper.toDTO(sheetSaved);
     }
 
-    public List<SheetDTO> getAllSheets(Long id) {
+//    public List<SheetDTO> getAllSheets(Long id) {
+//
+//        Optional<Customer> customerOpt = customerRepository.findById(id);
+//        Customer customer = customerOpt.get();
+//        //encontra um modo de recuperar as sheets criando uma query direta, passando como parametro
+//        //o  objeto Customer
+//
+//        List<Sheet> sheets = customer.getSheets();
+//        List<SheetDTO> sheetDTOS = new ArrayList<>();
+//        sheets.stream().forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
+//
+//        return sheetDTOS;
+//    }
+
+    public void deleteSingleSheetById(Long idSheet) {
+        sheetRepository.delete((sheetRepository.findById(idSheet).get()));
+    }
+
+//    public List<SheetDTO> getAllSheetsByCustomerNativeQuery(Long id) {
+//
+//        List<Sheet> sheets = sheetRepository.findAllActiveSheetNative(id);
+//        List<SheetDTO> sheetDTOS = new ArrayList<>();
+//
+//        sheets.forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
+//
+//        return sheetDTOS;
+//    }
+
+    public List<SheetDTO> getAllSheetsByCustomer(Long id) {
 
         Optional<Customer> customerOpt = customerRepository.findById(id);
         Customer customer = customerOpt.get();
-        //encontra um modo de recuperar as sheets criando uma query direta, passando como parametro
-        //o  objeto Customer
 
-        List<Sheet> sheets = customer.getSheets();
+        List<Sheet> sheets = sheetRepository.findAllByCustomer(customer);
         List<SheetDTO> sheetDTOS = new ArrayList<>();
-        sheets.stream().forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
+
+        sheets.forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
+
 
         return sheetDTOS;
     }
 
-    public void deleteSingleSheetById(Long idSheet) {
-
-        sheetRepository.delete((sheetRepository.findById(idSheet).get()));
-
-    }
 }
