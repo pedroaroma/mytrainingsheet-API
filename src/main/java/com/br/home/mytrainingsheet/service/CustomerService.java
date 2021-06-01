@@ -3,6 +3,7 @@ package com.br.home.mytrainingsheet.service;
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.CustomerDTOIsEmpty;
 import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.mapper.CustomerMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
@@ -36,8 +37,12 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public CustomerDTO updateCustomer(CustomerDTO customerDTO, Long id) throws CustomerNotFoundException {
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO, Long id) throws CustomerNotFoundException, CustomerDTOIsEmpty {
+
+
         Customer customerForUpdate = verifyIfAlreadyRegistredById(id);
+        verifiyIfCustomerDTOisEmpty(customerDTO);
+
         Customer customer = customerMapper.toModel(customerDTO);
 
         if (customer.getPassword() != null) {
@@ -81,6 +86,12 @@ public class CustomerService {
     private Customer verifyIfAlreadyRegistredById(Long id) throws CustomerNotFoundException {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
+    }
+
+    private void verifiyIfCustomerDTOisEmpty(CustomerDTO customerDTO) throws CustomerDTOIsEmpty {
+        if (customerDTO.getPassword() == null && customerDTO.getFullName() == null) {
+            throw new CustomerDTOIsEmpty();
+        }
     }
 
 

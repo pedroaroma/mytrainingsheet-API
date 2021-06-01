@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CustomerNotFoundException extends Exception{
 
     public CustomerNotFoundException(Long id) {
-        super(String.format("User with id %s not found in the system", id));
+        super(String.format("User with id %s was not found in the system", id));
     }
 
 

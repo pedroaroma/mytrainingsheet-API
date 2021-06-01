@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CustomerAlreadyRegisteredException extends Exception {
 
     public CustomerAlreadyRegisteredException(String email) {
-        super(String.format("O email %s já está cadastrado", email));
+        super(String.format("This email %s is already registred", email));
     }
 }

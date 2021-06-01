@@ -2,6 +2,7 @@ package com.br.home.mytrainingsheet.controller.customer;
 
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.CustomerDTOIsEmpty;
 import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class CustomerController implements CustomerControllerDocs {
 
     @PatchMapping("/{id}")
     public CustomerDTO updateCustomerInfo(@PathVariable Long id, @RequestBody CustomerDTO customerDTO)
-            throws CustomerNotFoundException {
+            throws CustomerNotFoundException, CustomerDTOIsEmpty {
         return customerService.updateCustomer(customerDTO, id);
     }
 
