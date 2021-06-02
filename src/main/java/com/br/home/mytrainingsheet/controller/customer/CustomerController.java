@@ -1,10 +1,11 @@
 package com.br.home.mytrainingsheet.controller.customer;
 
 import com.br.home.mytrainingsheet.dto.CustomerDTO;
+import com.br.home.mytrainingsheet.dto.CustomerInfoDTO;
 import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
 import com.br.home.mytrainingsheet.exception.CustomerDTOIsEmpty;
 import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
-import com.br.home.mytrainingsheet.service.CustomerService;
+import com.br.home.mytrainingsheet.service.customer.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,20 @@ public class CustomerController implements CustomerControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDTO createCustomer(@RequestBody @Valid CustomerDTO customerDTO) throws CustomerAlreadyRegisteredException {
+    public CustomerInfoDTO createCustomer(@RequestBody @Valid CustomerDTO customerDTO) throws CustomerAlreadyRegisteredException {
         return customerService.createCustomer(customerDTO);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerInfoDTO getCustomerInfo(@PathVariable Long id) throws CustomerNotFoundException {
+        return customerService.getCustomerInfo(id);
+    }
+
+    @PatchMapping("/{id}")
+    public CustomerInfoDTO updateCustomerInfo(@PathVariable Long id, @RequestBody CustomerDTO customerDTO)
+            throws CustomerNotFoundException, CustomerDTOIsEmpty {
+        return customerService.updateCustomer(customerDTO, id);
     }
 
     @DeleteMapping("/{id}")
@@ -32,18 +45,7 @@ public class CustomerController implements CustomerControllerDocs {
         customerService.deleteById(id);
     }
 
-    @PatchMapping("/{id}")
-    public CustomerDTO updateCustomerInfo(@PathVariable Long id, @RequestBody CustomerDTO customerDTO)
-            throws CustomerNotFoundException, CustomerDTOIsEmpty {
-        return customerService.updateCustomer(customerDTO, id);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public CustomerDTO getCustomerInfo(@PathVariable Long id) throws CustomerNotFoundException {
-        return customerService.getCustomerInfos(id);
-    }
-
+    //endpoint apenas para testes
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerDTO> getAllCustomers() {
