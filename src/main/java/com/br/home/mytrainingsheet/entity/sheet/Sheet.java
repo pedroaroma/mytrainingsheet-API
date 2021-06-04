@@ -1,7 +1,7 @@
 package com.br.home.mytrainingsheet.entity.sheet;
 
 import com.br.home.mytrainingsheet.entity.Customer;
-import com.br.home.mytrainingsheet.enuns.SheetType;
+import com.br.home.mytrainingsheet.enuns.DayOfTheWeek;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,13 +31,14 @@ public class Sheet implements Serializable {
     private Customer customer;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private SheetType sheetType;
-
+    private String sheetName;
 
     @OneToMany(mappedBy = "sheet",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     //One Sheet to Many Exercices
     private List<Exercice> exercices;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DayOfTheWeek weekDay;
 
 }

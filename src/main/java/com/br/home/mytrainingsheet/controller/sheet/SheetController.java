@@ -1,8 +1,9 @@
 package com.br.home.mytrainingsheet.controller.sheet;
 
-import com.br.home.mytrainingsheet.dto.SheetDTO;
-import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
-import com.br.home.mytrainingsheet.service.SheetService;
+import com.br.home.mytrainingsheet.dto.sheet.SheetDTO;
+import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
+import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.service.sheet.SheetService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class SheetController implements SheetControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SheetDTO createSheet(@RequestBody SheetDTO sheetDTO, @PathVariable Long id) throws CustomerNotFoundException {
+    public SheetInfoDTO createSheet(@RequestBody SheetDTO sheetDTO, @PathVariable Long id) throws CustomerNotFoundException {
         return sheetService.createSheet(sheetDTO, id);
     }
 
@@ -33,7 +34,7 @@ public class SheetController implements SheetControllerDocs {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SheetDTO> getAllSheets(@PathVariable Long id) {
+    public List<SheetInfoDTO> getAllSheets(@PathVariable Long id) throws CustomerNotFoundException {
         return sheetService.getAllSheetsByCustomer(id);
 
     }

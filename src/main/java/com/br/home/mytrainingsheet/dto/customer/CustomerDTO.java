@@ -1,4 +1,4 @@
-package com.br.home.mytrainingsheet.dto;
+package com.br.home.mytrainingsheet.dto.customer;
 
 import com.br.home.mytrainingsheet.entity.sheet.Sheet;
 import lombok.AllArgsConstructor;

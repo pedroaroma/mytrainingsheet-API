@@ -1,4 +1,4 @@
-package com.br.home.mytrainingsheet.exception;
+package com.br.home.mytrainingsheet.exception.customer;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

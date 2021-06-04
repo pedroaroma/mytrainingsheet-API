@@ -1,11 +1,11 @@
 package com.br.home.mytrainingsheet.service.customer;
 
-import com.br.home.mytrainingsheet.dto.CustomerDTO;
-import com.br.home.mytrainingsheet.dto.CustomerInfoDTO;
+import com.br.home.mytrainingsheet.dto.customer.CustomerDTO;
+import com.br.home.mytrainingsheet.dto.customer.CustomerInfoDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
-import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
-import com.br.home.mytrainingsheet.exception.CustomerDTOIsEmpty;
-import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.customer.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.customer.CustomerDTOIsEmpty;
+import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.mapper.CustomerInfoMapper;
 import com.br.home.mytrainingsheet.mapper.CustomerMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
@@ -44,7 +44,7 @@ public class CustomerService {
 
 
         Customer customerForUpdate = verifyIfAlreadyRegistredById(id);
-        verifiyIfCustomerDTOisEmpty(customerDTO);
+        verifyIfCustomerDTOisEmpty(customerDTO);
 
         Customer customer = customerMapper.toModel(customerDTO);
 
@@ -92,11 +92,10 @@ public class CustomerService {
                 .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
-    private void verifiyIfCustomerDTOisEmpty(CustomerDTO customerDTO) throws CustomerDTOIsEmpty {
+    private void verifyIfCustomerDTOisEmpty(CustomerDTO customerDTO) throws CustomerDTOIsEmpty {
         if ((customerDTO.getPassword() == null || customerDTO.getPassword().isEmpty()) && (customerDTO.getFullName() == null || customerDTO.getFullName().isEmpty())) {
             throw new CustomerDTOIsEmpty();
         }
     }
-
 
 }

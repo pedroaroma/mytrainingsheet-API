@@ -1,10 +1,10 @@
 package com.br.home.mytrainingsheet.controller.customer;
 
-import com.br.home.mytrainingsheet.dto.CustomerDTO;
-import com.br.home.mytrainingsheet.dto.CustomerInfoDTO;
-import com.br.home.mytrainingsheet.exception.CustomerAlreadyRegisteredException;
-import com.br.home.mytrainingsheet.exception.CustomerDTOIsEmpty;
-import com.br.home.mytrainingsheet.exception.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.dto.customer.CustomerDTO;
+import com.br.home.mytrainingsheet.dto.customer.CustomerInfoDTO;
+import com.br.home.mytrainingsheet.exception.customer.CustomerAlreadyRegisteredException;
+import com.br.home.mytrainingsheet.exception.customer.CustomerDTOIsEmpty;
+import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.service.customer.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

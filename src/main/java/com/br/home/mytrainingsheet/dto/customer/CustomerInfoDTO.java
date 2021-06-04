@@ -1,4 +1,4 @@
-package com.br.home.mytrainingsheet.dto;
+package com.br.home.mytrainingsheet.dto.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
