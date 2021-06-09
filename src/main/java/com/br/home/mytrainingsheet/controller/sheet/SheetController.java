@@ -3,6 +3,7 @@ package com.br.home.mytrainingsheet.controller.sheet;
 import com.br.home.mytrainingsheet.dto.sheet.SheetDTO;
 import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.service.sheet.SheetService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/customer/{id}/sheets")
+@RequestMapping("/api/v1/customer/{userId}/sheets")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SheetController implements SheetControllerDocs {
 
@@ -20,8 +21,8 @@ public class SheetController implements SheetControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SheetInfoDTO createSheet(@RequestBody SheetDTO sheetDTO, @PathVariable Long id) throws CustomerNotFoundException {
-        return sheetService.createSheet(sheetDTO, id);
+    public SheetInfoDTO createSheet(@RequestBody SheetDTO sheetDTO, @PathVariable Long userId) throws CustomerNotFoundException {
+        return sheetService.createSheet(sheetDTO, userId);
     }
 
 //    @GetMapping
@@ -34,16 +35,27 @@ public class SheetController implements SheetControllerDocs {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SheetInfoDTO> getAllSheets(@PathVariable Long id) throws CustomerNotFoundException {
-        return sheetService.getAllSheetsByCustomer(id);
+    public List<SheetInfoDTO> getAllSheets(@PathVariable Long userId) throws CustomerNotFoundException {
+        return sheetService.getAllSheetsByCustomer(userId);
 
     }
 
-    @DeleteMapping
-    @RequestMapping("/{idSheet}")
+    @GetMapping("/{sheetId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SheetInfoDTO getSingleSheet(@PathVariable Long sheetId) throws SheetNotFoundException {
+        return sheetService.getSingleSheetById(sheetId);
+    }
+
+    @PatchMapping("/{sheetId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SheetInfoDTO updateSheet(@RequestBody SheetInfoDTO sheetInfoDTO, @PathVariable Long sheetId) throws SheetNotFoundException {
+        return sheetService.updateSheet(sheetInfoDTO, sheetId);
+    }
+
+    @DeleteMapping("/{sheetId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteSingleSheet(@PathVariable Long idSheet) {
-        sheetService.deleteSingleSheetById(idSheet);
+    public void deleteSingleSheet(@PathVariable Long sheetId) throws SheetNotFoundException {
+        sheetService.deleteSingleSheetById(sheetId);
     }
 
 

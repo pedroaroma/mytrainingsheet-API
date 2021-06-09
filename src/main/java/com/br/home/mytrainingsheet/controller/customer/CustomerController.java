@@ -34,6 +34,7 @@ public class CustomerController implements CustomerControllerDocs {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomerInfoDTO updateCustomerInfo(@PathVariable Long id, @RequestBody CustomerDTO customerDTO)
             throws CustomerNotFoundException, CustomerDTOIsEmpty {
         return customerService.updateCustomer(customerDTO, id);

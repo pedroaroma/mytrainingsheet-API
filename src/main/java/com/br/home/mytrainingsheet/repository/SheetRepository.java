@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public interface SheetRepository extends JpaRepository<Sheet, Long> {
 
-    @Query(
-            value = "SELECT * FROM sheet WHERE customer_id = ?1",
-            nativeQuery = true
-    )
-    List<Sheet> findAllActiveSheetNative(Long id);
+//    @Query(
+//            value = "SELECT * FROM sheet WHERE customer_id = ?1",
+//            nativeQuery = true
+//    )
+//    List<Sheet> findAllActiveSheetNative(Long id);
     List<Sheet> findAllByCustomer(Customer customer);
 
 }

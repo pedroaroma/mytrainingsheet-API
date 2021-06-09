@@ -3,16 +3,15 @@ package com.br.home.mytrainingsheet.entity.sheet;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.enuns.DayOfTheWeek;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

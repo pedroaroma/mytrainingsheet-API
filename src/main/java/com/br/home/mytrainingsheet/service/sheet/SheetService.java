@@ -5,6 +5,7 @@ import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.entity.sheet.Sheet;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.mapper.SheetInfoMapper;
 import com.br.home.mytrainingsheet.mapper.SheetMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
@@ -54,12 +55,68 @@ public class SheetService {
 //        sheets.stream().forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
 //
 //        return sheetDTOS;
+
 //    }
 
-    public void deleteSingleSheetById(Long idSheet) {
-        sheetRepository.delete((sheetRepository.findById(idSheet).get()));
+    public SheetInfoDTO updateSheet(SheetInfoDTO sheetInfoDTO, Long idSheet) throws SheetNotFoundException {
+        //colocar exception de sheetInfoDTO is empty 304 not modified
+        Optional<Sheet> sheetOpt = Optional.ofNullable(sheetRepository.findById(idSheet)
+                .orElseThrow(() -> new SheetNotFoundException(idSheet)));
+
+        Sheet sheetInfoUpdate = sheetOpt.get();
+
+        if (sheetInfoDTO.getSheetName() != null && !sheetInfoDTO.getSheetName().isEmpty()) {
+            sheetInfoUpdate.setSheetName(sheetInfoDTO.getSheetName());
+        }
+        if (sheetInfoDTO.getWeekDay() != null && !sheetInfoDTO.getWeekDay().toString().isEmpty()) {
+            sheetInfoUpdate.setWeekDay(sheetInfoDTO.getWeekDay());
+        }
+
+        sheetRepository.save(sheetInfoUpdate);
+
+        return sheetInfoMapper.toDTO(sheetInfoUpdate);
     }
 
+    public List<SheetInfoDTO> getAllSheetsByCustomer(Long id) throws CustomerNotFoundException {
+
+        Optional<Customer> customerOpt = Optional.ofNullable(customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id)));
+
+        Customer customer = customerOpt.get();
+
+        List<Sheet> sheets = sheetRepository.findAllByCustomer(customer);
+
+
+        List<SheetInfoDTO> sheetDTOS = new ArrayList<>();
+
+        sheets.forEach(sheet -> sheetDTOS.add(sheetInfoMapper.toDTO(sheet)));
+
+
+        return sheetDTOS;
+    }
+
+    public SheetInfoDTO getSingleSheetById(Long id) throws SheetNotFoundException {
+
+        Optional<Sheet> sheetOptional = Optional.ofNullable(sheetRepository.findById(id)
+                .orElseThrow(() -> new SheetNotFoundException(id)));
+
+        Sheet sheet = sheetOptional.get();
+
+        SheetInfoDTO singleSheet = sheetInfoMapper.toDTO(sheet);
+
+        return singleSheet;
+    }
+
+    public void deleteSingleSheetById(Long idSheet) throws SheetNotFoundException {
+
+        Optional<Sheet> sheetOptional = Optional.ofNullable(sheetRepository.findById(idSheet)
+                .orElseThrow(() -> new SheetNotFoundException(idSheet)));
+
+        Sheet sheet = sheetOptional.get();
+
+        sheetRepository.delete(sheet);
+
+    }
 //    public List<SheetDTO> getAllSheetsByCustomerNativeQuery(Long id) {
 //
 //        List<Sheet> sheets = sheetRepository.findAllActiveSheetNative(id);
@@ -68,22 +125,7 @@ public class SheetService {
 //        sheets.forEach(sheet -> sheetDTOS.add(sheetMapper.toDTO(sheet)));
 //
 //        return sheetDTOS;
+
 //    }
-
-    public List<SheetInfoDTO> getAllSheetsByCustomer(Long id) throws CustomerNotFoundException{
-
-        Optional<Customer> customerOpt = Optional.ofNullable(customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id)));
-
-        Customer customer = customerOpt.get();
-
-        List<Sheet> sheets = sheetRepository.findAllByCustomer(customer);
-        List<SheetInfoDTO> sheetDTOS = new ArrayList<>();
-
-        sheets.forEach(sheet -> sheetDTOS.add(sheetInfoMapper.toDTO(sheet)));
-
-
-        return sheetDTOS;
-    }
 
 }
