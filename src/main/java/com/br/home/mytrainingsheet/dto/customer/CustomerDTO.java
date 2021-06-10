@@ -1,6 +1,6 @@
 package com.br.home.mytrainingsheet.dto.customer;
 
-import com.br.home.mytrainingsheet.entity.sheet.Sheet;
+import com.br.home.mytrainingsheet.entity.Sheet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

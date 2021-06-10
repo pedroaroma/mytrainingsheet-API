@@ -1,9 +1,13 @@
-package com.br.home.mytrainingsheet.entity.sheet;
+package com.br.home.mytrainingsheet.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -11,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Exercice implements Serializable {
+public class Exercise implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +35,10 @@ public class Exercice implements Serializable {
 
     private Integer repetitions;
 
+    private Float weight;
+
     private Integer rest;
 
+    private String comment;
 
 }

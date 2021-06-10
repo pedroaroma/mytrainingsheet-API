@@ -1,7 +1,7 @@
 package com.br.home.mytrainingsheet.mapper;
 
 import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
-import com.br.home.mytrainingsheet.entity.sheet.Sheet;
+import com.br.home.mytrainingsheet.entity.Sheet;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

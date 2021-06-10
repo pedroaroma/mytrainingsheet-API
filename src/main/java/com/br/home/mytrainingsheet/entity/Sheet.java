@@ -1,6 +1,5 @@
-package com.br.home.mytrainingsheet.entity.sheet;
+package com.br.home.mytrainingsheet.entity;
 
-import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.enuns.DayOfTheWeek;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -32,9 +31,9 @@ public class Sheet implements Serializable {
     @NotNull
     private String sheetName;
 
-    @OneToMany(mappedBy = "sheet",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sheet",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     //One Sheet to Many Exercices
-    private List<Exercice> exercices;
+    private List<Exercise> exercises;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

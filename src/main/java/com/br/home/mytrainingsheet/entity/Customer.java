@@ -1,12 +1,9 @@
 package com.br.home.mytrainingsheet.entity;
 
-import com.br.home.mytrainingsheet.entity.sheet.Sheet;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,7 +30,7 @@ public class Customer implements Serializable {
     private String fullName;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    //One Customer to Many Sheets fetch = FetchType.EAGER
+    //One Customer to Many Sheets
     private List<Sheet> sheets;
 
 

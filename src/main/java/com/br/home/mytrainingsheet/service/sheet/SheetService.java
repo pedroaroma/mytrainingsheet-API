@@ -3,7 +3,7 @@ package com.br.home.mytrainingsheet.service.sheet;
 import com.br.home.mytrainingsheet.dto.sheet.SheetDTO;
 import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
-import com.br.home.mytrainingsheet.entity.sheet.Sheet;
+import com.br.home.mytrainingsheet.entity.Sheet;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
 import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.mapper.SheetInfoMapper;
