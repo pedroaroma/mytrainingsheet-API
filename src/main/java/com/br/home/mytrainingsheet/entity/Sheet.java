@@ -31,12 +31,13 @@ public class Sheet implements Serializable {
     @NotNull
     private String sheetName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DayOfTheWeek weekDay;
+
     @OneToMany(mappedBy = "sheet",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     //One Sheet to Many Exercices
     private List<Exercise> exercises;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DayOfTheWeek weekDay;
 
 }

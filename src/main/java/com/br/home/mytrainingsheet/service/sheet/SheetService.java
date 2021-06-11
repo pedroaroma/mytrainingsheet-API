@@ -27,10 +27,10 @@ public class SheetService {
     private final CustomerRepository customerRepository;
     private final SheetInfoMapper sheetInfoMapper = SheetInfoMapper.INSTANCE;
 
-    public SheetInfoDTO createSheet(SheetDTO sheetDTO, Long id) throws CustomerNotFoundException {
+    public SheetInfoDTO createSheet(SheetDTO sheetDTO, Long userId) throws CustomerNotFoundException {
 
-        Optional<Customer> customerOpt = Optional.ofNullable(customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id)));
+        Optional<Customer> customerOpt = Optional.ofNullable(customerRepository.findById(userId)
+                .orElseThrow(() -> new CustomerNotFoundException(userId)));
 
         sheetDTO.setCustomer(customerOpt.get());
 

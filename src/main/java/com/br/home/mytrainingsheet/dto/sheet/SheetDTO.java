@@ -3,16 +3,14 @@ package com.br.home.mytrainingsheet.dto.sheet;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.entity.Exercise;
 import com.br.home.mytrainingsheet.enuns.DayOfTheWeek;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +26,7 @@ public class SheetDTO {
 
     private List<Exercise> exercises;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     @NotNull
     private DayOfTheWeek weekDay;
 
