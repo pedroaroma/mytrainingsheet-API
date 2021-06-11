@@ -17,6 +17,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,7 +52,7 @@ public class ExerciseService {
         return exerciseInfoMapper.toDTO(exerciseSaved);
     }
 
-    public ExerciseInfoDTO getSingleExercise(Long exerciseId, Long userId, Long sheetId) throws ExerciseNotFoundException{
+    public ExerciseInfoDTO getSingleExercise(Long exerciseId, Long userId, Long sheetId) throws ExerciseNotFoundException {
 
         Optional<Exercise> exerciseOpt = Optional.ofNullable(exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new ExerciseNotFoundException(exerciseId)));
@@ -58,6 +60,21 @@ public class ExerciseService {
         Exercise exercise = exerciseOpt.get();
 
         return exerciseInfoMapper.toDTO(exercise);
+
+    }
+
+    public List<ExerciseInfoDTO> getAllExercisesBySheet(Long userId, Long sheetId) throws SheetNotFoundException {
+
+        Optional<Sheet> sheetOpt = Optional.ofNullable(sheetRepository.findById(sheetId)
+                .orElseThrow(() -> new SheetNotFoundException(sheetId)));
+
+        List<Exercise> exercises = exerciseRepository.findAllBySheet(sheetOpt.get());
+
+        List<ExerciseInfoDTO> exerciseInfoDTOS = new ArrayList<>();
+
+        exercises.forEach(exercise -> exerciseInfoDTOS.add(exerciseInfoMapper.toDTO(exercise)));
+
+        return exerciseInfoDTOS;
 
     }
 

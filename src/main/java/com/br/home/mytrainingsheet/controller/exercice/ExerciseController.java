@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/customer/{userId}/sheets/{sheetId}/exercise")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -39,6 +41,15 @@ public class ExerciseController {
 
         return exerciseService.getSingleExercise(exerciseId, userId, sheetId);
 
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<ExerciseInfoDTO> getAllExercisesBySheet(@PathVariable Long userId,
+                                                        @PathVariable Long sheetId)
+            throws SheetNotFoundException {
+
+        return exerciseService.getAllExercisesBySheet(userId, sheetId);
     }
 
 
