@@ -6,6 +6,7 @@ import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.entity.Exercise;
 import com.br.home.mytrainingsheet.entity.Sheet;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.exercise.ExerciseNotFoundException;
 import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.mapper.ExerciseInfoMapper;
 import com.br.home.mytrainingsheet.mapper.ExerciseMapper;
@@ -47,6 +48,17 @@ public class ExerciseService {
         Exercise exerciseSaved = exerciseRepository.save(exercise);
 
         return exerciseInfoMapper.toDTO(exerciseSaved);
+    }
+
+    public ExerciseInfoDTO getSingleExercise(Long exerciseId, Long userId, Long sheetId) throws ExerciseNotFoundException{
+
+        Optional<Exercise> exerciseOpt = Optional.ofNullable(exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId)));
+
+        Exercise exercise = exerciseOpt.get();
+
+        return exerciseInfoMapper.toDTO(exercise);
+
     }
 
 }

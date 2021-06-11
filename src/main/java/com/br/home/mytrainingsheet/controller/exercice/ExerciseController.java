@@ -3,8 +3,8 @@ package com.br.home.mytrainingsheet.controller.exercice;
 
 import com.br.home.mytrainingsheet.dto.exercise.ExerciseDTO;
 import com.br.home.mytrainingsheet.dto.exercise.ExerciseInfoDTO;
-import com.br.home.mytrainingsheet.entity.Exercise;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.exercise.ExerciseNotFoundException;
 import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.service.exercise.ExerciseService;
 import lombok.AllArgsConstructor;
@@ -27,6 +27,19 @@ public class ExerciseController {
             throws CustomerNotFoundException, SheetNotFoundException {
 
         return exerciseService.createExercise(exerciseDTO, userId, sheetId);
+
     }
+
+    @GetMapping("/{exerciseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ExerciseInfoDTO getSingleExercise(@PathVariable Long exerciseId,
+                                             @PathVariable Long userId,
+                                             @PathVariable Long sheetId)
+            throws ExerciseNotFoundException {
+
+        return exerciseService.getSingleExercise(exerciseId, userId, sheetId);
+
+    }
+
 
 }
