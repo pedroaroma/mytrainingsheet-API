@@ -78,4 +78,25 @@ public class ExerciseService {
 
     }
 
+    public ExerciseInfoDTO updateSingleExercise(ExerciseDTO exerciseDTO, Long userId, Long sheetId, Long exerciseId) throws ExerciseNotFoundException {
+
+        Optional<Exercise> exerciseOpt = Optional.ofNullable(exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId)));
+
+        Exercise exerciseToUpdate = exerciseOpt.get();
+
+        exerciseToUpdate.setName(exerciseDTO.getName());
+        exerciseToUpdate.setSeries(exerciseDTO.getSeries());
+        exerciseToUpdate.setRepetitions(exerciseDTO.getRepetitions());
+        exerciseToUpdate.setWeight(exerciseDTO.getWeight());
+        exerciseToUpdate.setRest(exerciseDTO.getRest());
+        exerciseToUpdate.setComment(exerciseDTO.getComment());
+
+        exerciseRepository.save(exerciseToUpdate);
+
+
+        return exerciseInfoMapper.toDTO(exerciseToUpdate);
+
+    }
+
 }

@@ -52,5 +52,16 @@ public class ExerciseController {
         return exerciseService.getAllExercisesBySheet(userId, sheetId);
     }
 
+    @PutMapping("/{exerciseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ExerciseInfoDTO updateSingleExercise(@RequestBody ExerciseDTO exerciseDTO,
+                                             @PathVariable Long userId,
+                                             @PathVariable Long sheetId,
+                                             @PathVariable Long exerciseId) throws ExerciseNotFoundException {
+
+        return exerciseService.updateSingleExercise(exerciseDTO, userId, sheetId, exerciseId);
+
+    }
+
 
 }
