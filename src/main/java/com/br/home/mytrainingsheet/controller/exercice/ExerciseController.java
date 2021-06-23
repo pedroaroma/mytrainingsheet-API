@@ -63,5 +63,11 @@ public class ExerciseController {
 
     }
 
+    @DeleteMapping("/{exerciseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteExercise(@PathVariable Long exerciseId) throws ExerciseNotFoundException {
+        exerciseService.deleteExercise(exerciseId);
+    }
+
 
 }

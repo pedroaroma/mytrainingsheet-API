@@ -99,4 +99,16 @@ public class ExerciseService {
 
     }
 
+    public void deleteExercise(Long exerciseId) throws ExerciseNotFoundException {
+
+        Optional<Exercise> exerciseOpt = Optional.ofNullable(exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId)));
+
+        Exercise exerciseToRemove = exerciseOpt.get();
+
+        exerciseRepository.delete(exerciseToRemove);
+
+    }
+
+
 }
