@@ -23,4 +23,6 @@ public class ExerciseInfoDTO {
 
     private String comment;
 
+    private Integer position;
+
 }

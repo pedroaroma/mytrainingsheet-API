@@ -41,4 +41,5 @@ public class Exercise implements Serializable {
 
     private String comment;
 
+    private Integer position;
 }
