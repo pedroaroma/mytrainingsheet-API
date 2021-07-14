@@ -11,6 +11,7 @@ import com.br.home.mytrainingsheet.mapper.CustomerMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
