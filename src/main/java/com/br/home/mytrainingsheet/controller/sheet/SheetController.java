@@ -3,6 +3,7 @@ package com.br.home.mytrainingsheet.controller.sheet;
 import com.br.home.mytrainingsheet.dto.sheet.SheetDTO;
 import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.customer.UnauthorizedException;
 import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.service.sheet.SheetService;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,10 @@ public class SheetController implements SheetControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SheetInfoDTO createSheet(@RequestBody SheetDTO sheetDTO, @PathVariable Long userId) throws CustomerNotFoundException {
-        return sheetService.createSheet(sheetDTO, userId);
+    public SheetInfoDTO createSheet(@RequestBody SheetDTO sheetDTO,
+                                    @PathVariable Long userId,
+                                    @RequestHeader ("Authorization") String token) throws CustomerNotFoundException, UnauthorizedException {
+        return sheetService.createSheet(sheetDTO, userId, token);
     }
 
 //    @GetMapping
@@ -48,8 +51,11 @@ public class SheetController implements SheetControllerDocs {
 
     @PatchMapping("/{sheetId}")
     @ResponseStatus(HttpStatus.OK)
-    public SheetInfoDTO updateSheet(@RequestBody SheetInfoDTO sheetInfoDTO, @PathVariable Long sheetId) throws SheetNotFoundException {
-        return sheetService.updateSheet(sheetInfoDTO, sheetId);
+    public SheetInfoDTO updateSheet(@RequestBody SheetInfoDTO sheetInfoDTO,
+                                    @PathVariable Long sheetId,
+                                    @PathVariable Long userId,
+                                    @RequestHeader ("Authorization") String token) throws SheetNotFoundException {
+        return sheetService.updateSheet(sheetInfoDTO, sheetId, userId, token);
     }
 
     @DeleteMapping("/{sheetId}")

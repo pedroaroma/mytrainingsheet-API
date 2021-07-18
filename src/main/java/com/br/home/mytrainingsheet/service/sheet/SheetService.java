@@ -5,18 +5,20 @@ import com.br.home.mytrainingsheet.dto.sheet.SheetInfoDTO;
 import com.br.home.mytrainingsheet.entity.Customer;
 import com.br.home.mytrainingsheet.entity.Sheet;
 import com.br.home.mytrainingsheet.exception.customer.CustomerNotFoundException;
+import com.br.home.mytrainingsheet.exception.customer.UnauthorizedException;
 import com.br.home.mytrainingsheet.exception.sheet.SheetNotFoundException;
 import com.br.home.mytrainingsheet.mapper.SheetInfoMapper;
 import com.br.home.mytrainingsheet.mapper.SheetMapper;
 import com.br.home.mytrainingsheet.repository.CustomerRepository;
 import com.br.home.mytrainingsheet.repository.SheetRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Type;
+import java.util.*;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,21 +29,29 @@ public class SheetService {
     private final CustomerRepository customerRepository;
     private final SheetInfoMapper sheetInfoMapper = SheetInfoMapper.INSTANCE;
 
-    public SheetInfoDTO createSheet(SheetDTO sheetDTO, Long userId) throws CustomerNotFoundException {
+    public SheetInfoDTO createSheet(SheetDTO sheetDTO, Long userId, String token) throws CustomerNotFoundException, UnauthorizedException {
 
         Optional<Customer> customerOpt = Optional.ofNullable(customerRepository.findById(userId)
                 .orElseThrow(() -> new CustomerNotFoundException(userId)));
 
         sheetDTO.setCustomer(customerOpt.get());
 
-        //List<SheetInfoDTO> sheetInfoDTO = getAllSheetsByCustomer(customerOpt.get().getId());
+        //se o payload(userId) for igual ao userId passado na uri e o email
+        if (verifySheetRequestOwner(token, userId, customerOpt.get())) {
 
-        Sheet sheet = sheetMapper.toModel(sheetDTO);
-        Sheet sheetSaved = sheetRepository.save(sheet);
+            //List<SheetInfoDTO> sheetInfoDTO = getAllSheetsByCustomer(customerOpt.get().getId());
+
+            Sheet sheet = sheetMapper.toModel(sheetDTO);
+            Sheet sheetSaved = sheetRepository.save(sheet);
 
 
-        return sheetInfoMapper.toDTO(sheetSaved);
+            return sheetInfoMapper.toDTO(sheetSaved);
+
+        } else {
+            throw new UnauthorizedException();
+        }
     }
+
 
 //    public List<SheetDTO> getAllSheets(Long id) {
 //
@@ -56,14 +66,17 @@ public class SheetService {
 //
 //        return sheetDTOS;
 
-//    }
+    //    }
+    public SheetInfoDTO updateSheet(SheetInfoDTO sheetInfoDTO, Long idSheet, Long userId, String token) throws SheetNotFoundException {
 
-    public SheetInfoDTO updateSheet(SheetInfoDTO sheetInfoDTO, Long idSheet) throws SheetNotFoundException {
-        //colocar exception de sheetInfoDTO is empty 304 not modified
         Optional<Sheet> sheetOpt = Optional.ofNullable(sheetRepository.findById(idSheet)
                 .orElseThrow(() -> new SheetNotFoundException(idSheet)));
 
         Sheet sheetInfoUpdate = sheetOpt.get();
+
+//        Customer customer =
+//
+//        if (verifySheetRequestOwner(token, idSheet, ))
 
         if (sheetInfoDTO.getSheetName() != null && !sheetInfoDTO.getSheetName().isEmpty()) {
             sheetInfoUpdate.setSheetName(sheetInfoDTO.getSheetName());
@@ -117,6 +130,7 @@ public class SheetService {
         sheetRepository.delete(sheet);
 
     }
+
 //    public List<SheetDTO> getAllSheetsByCustomerNativeQuery(Long id) {
 //
 //        List<Sheet> sheets = sheetRepository.findAllActiveSheetNative(id);
@@ -128,4 +142,34 @@ public class SheetService {
 
 //    }
 
+    private boolean verifySheetRequestOwner(String token, Long userId, Customer customer) {
+
+        String payload = token.substring(6);
+        String[] chunks = payload.split("\\.");
+
+        Base64.Decoder decoder = Base64.getDecoder();
+
+        payload = new String(decoder.decode(chunks[1]));
+
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
+        Gson gson = new Gson();
+
+        Map<String, String> payloadInfo = gson.fromJson(payload, type);
+
+        int idUser = Integer.parseInt(payloadInfo.get("userId"));
+        String email = payloadInfo.get("sub");
+        String name = payloadInfo.get("name");
+
+        if (idUser != userId) {
+            return false;
+        }
+        if (!email.equals(customer.getEmail())) {
+            return false;
+        }
+        if (!name.equals(customer.getFullName())) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -25,8 +25,10 @@ public class ExerciseController {
     @ResponseStatus(HttpStatus.CREATED)
     public ExerciseInfoDTO createExercise(@RequestBody ExerciseDTO exerciseDTO,
                                           @PathVariable Long userId,
-                                          @PathVariable Long sheetId)
+                                          @PathVariable Long sheetId,
+                                          @RequestHeader ("Authorization") String token)
             throws CustomerNotFoundException, SheetNotFoundException {
+        System.out.println("Token aqui: " + token);
 
         return exerciseService.createExercise(exerciseDTO, userId, sheetId);
 
